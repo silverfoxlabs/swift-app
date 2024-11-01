@@ -1,0 +1,111 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Recipes API
+  description: API for retrieving a list of recipes with details.
+
+servers:
+  - url: https://{baseUrl}
+    description: The base URL for API requests
+    variables:
+      baseUrl:
+        default: d3jbb8n5wk0qxi.cloudfront.net
+        description: The base URL that can be injected dynamically.
+
+paths:
+  /recipes.json:
+    get:
+      tags:
+        - Recipes
+      summary: Retrieve a list of recipes
+      operationId: getRecipes
+      responses:
+        '200':
+          description: A list of recipes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  recipes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RecipesInner' 
+        '404':
+          description: Recipes not found
+  
+  /recipes-malformed.json:
+    get:
+      tags:
+        - Recipes
+      summary: Retrieve malformed recipes data
+      operationId: getMalformedRecipes
+      responses:
+        '200':
+          description: Malformed recipes data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  recipes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RecipesInner'
+        '404':
+          description: Malformed recipes data not found
+  
+  /recipes-empty.json:
+    get:
+      tags:
+        - Recipes
+      summary: Retrieve empty recipes data
+      operationId: getEmptyRecipes
+      responses:
+        '200':
+          description: Empty list of recipes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  recipes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RecipesInner'
+        '404':
+          description: Empty recipes data not found
+
+components:
+  schemas:
+    RecipesInner:
+      type: object
+      properties:
+        cuisine:
+          type: string
+          description: Type of cuisine
+          example: "Malaysian"
+        name:
+          type: string
+          description: Name of the recipe
+          example: "Apam Balik"
+        photo_url_large:
+          type: string
+          description: URL to the large photo of the recipe
+          example: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/large.jpg"
+        photo_url_small:
+          type: string
+          description: URL to the small photo of the recipe
+          example: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/small.jpg"
+        source_url:
+          type: string
+          description: URL to the recipe source
+          example: "https://www.nyonyacooking.com/recipes/apam-balik~SJ5WuvsDf9WQ"
+        uuid:
+          type: string
+          description: Unique identifier for the recipe
+          example: "0c6ca6e7-e32a-4053-b824-1dbf749910d8"
+        youtube_url:
+          type: string
+          description: URL to the YouTube video of the recipe
+          example: "https://www.youtube.com/watch?v=6R8ffRRJcrg"
